@@ -1,9 +1,29 @@
+import { useState } from "react";
+
+/*
+  El estado de un componente define
+  el aspecto visual y el comportamiento del mismo.
+
+  La actualización del estado obliga al componente
+  a renderizarse nuevamente.
+ */
+
 function App() {
-	let counter = 0;
+	console.log("Renderizando...");
+
+	// Recibe como parámetro el estado inicial
+	// cuando se ejecuta por primera vez el componente
+	const [counter, setCounter] = useState(0);
+
+	console.log("counter:", counter);
+
+	// useState regresa un arreglo donde
+	// el primer elemento es el estado actual
+	// y el segundo una función para actualizar
+	// el estado
 
 	function handleClick() {
-		counter++;
-		console.log(counter);
+		setCounter(counter + 1);
 	}
 
 	return (
@@ -11,7 +31,7 @@ function App() {
 			<div className="col-6 text-center">
 				<h1 className="fs-1">{counter}</h1>
 				<button
-					className="btn btn-primary btn-lg"
+					className="btn btn-danger btn-lg"
 					type="button"
 					onClick={handleClick}
 				>
