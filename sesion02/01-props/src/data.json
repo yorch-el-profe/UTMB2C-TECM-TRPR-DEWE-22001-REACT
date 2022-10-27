@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1000,
+    "name": "Nintendo Switch (Animal Crossing)",
+    "price": 8000,
+    "description": "Edición especial de Animal Crossing para la Nintendo Switch",
+    "image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:good/mg/gm/1p/images/product-images/img_large/00004549688264l.jpg"
+  },
+  {
+    "id": 2000,
+    "name": "Xbox Series X",
+    "price": 18000,
+    "description": "Consola de última generación de la marca Xbox",
+    "image": "https://compass-ssl.xbox.com/assets/83/53/83534a33-0998-43dc-915a-4ec0a686d679.jpg?n=10202018_Panes-3-up-1400_Hero-SX_570x570.jpg"
+  },
+  {
+    "id": 3000,
+    "name": "Playstation 5",
+    "price": 20000,
+    "description": "Consola para los fans de Kuno",
+    "image": "https://media.revistagq.com/photos/5ff1bec700d7bee5781efabf/1:1/w_720,h_720,c_limit/PS5%20oro.jpg"
+  },
+  {
+    "id": 4000,
+    "name": "Steam Deck",
+    "price": 20000,
+    "description": "Copia de la Nintendo Switch",
+    "image": "https://cdn.pocket-lint.com/r/s/660x/assets/images/157701-games-news-feature-valve-steam-deck-release-date-price-features-and-how-to-reserve-one-gallery-1-image1-bklghyieiw-jpg.webp"
+  }
+]
