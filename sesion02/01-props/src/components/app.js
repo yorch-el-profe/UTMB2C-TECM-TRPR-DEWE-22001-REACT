@@ -5,16 +5,15 @@ function App() {
 	return (
 		<div className="container">
 			{products.map((product) => (
-				<Product
-					key={product.id}
-					image={product.image}
-					price={product.price}
-					name={product.name}
-					description={product.description}
-				/>
+				<Product key={product.id} {...product} />
 			))}
 		</div>
 	);
 }
+
+// {...product} => { name: product.name, description: product.description}
+/*
+  <Product {...product} /> => <Product name={product.name} description={product.description} />
+*/
 
 export default App;

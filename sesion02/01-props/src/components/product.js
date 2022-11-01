@@ -41,6 +41,17 @@
   }
 */
 
+/*
+  Spread Operator
+
+  const arr = [1,2,3];
+  const arr2 = [-1, 0, ...arr] => [-1, 0, 1, 2, 3]
+
+  const obj = {a: 0, b: 1}
+
+  const obj2 = {...obj, c: 3, d: 4} => {a: 0, b: 1, c3: d: 4}
+*/
+
 function Product({ image, price, name, description }) {
 	return (
 		<figure className="snip1171">
