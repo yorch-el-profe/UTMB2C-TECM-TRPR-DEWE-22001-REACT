@@ -5,6 +5,9 @@ function reducer(state, action) {
 
 		case "update_image":
 			return { ...state, image: action.payload };
+
+		case "select_breed":
+			return { ...state, selectedBreed: action.payload };
 	}
 }
 

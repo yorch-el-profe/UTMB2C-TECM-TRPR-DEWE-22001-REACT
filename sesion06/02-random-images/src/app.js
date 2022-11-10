@@ -1,4 +1,5 @@
 import Select from "./components/select";
+import Image from "./components/image";
 import reducer from "./redux/reducer";
 import StoreContext from "./redux/store";
 import initialState from "./redux/initialState";
@@ -10,6 +11,7 @@ function App() {
 		<StoreContext.Provider value={{ state, dispatch }}>
 			<div className="container mt-5">
 				<Select />
+				<Image />
 			</div>
 		</StoreContext.Provider>
 	);
