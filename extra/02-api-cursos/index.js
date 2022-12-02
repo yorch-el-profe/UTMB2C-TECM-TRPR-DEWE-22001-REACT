@@ -1,9 +1,11 @@
 const express = require("express");
+const { body, validationResult } = require("express-validator");
 const app = express();
 
 // Middleware
 // app.use(function) => Para todas las rutas
 // app.use("/ruta", function) => Únicamente para la ruta "/ruta"
+// app.post("/ruta", mw1, mw2, mw3, function(request, response) {})
 
 // Middleware que en cada petición imprime la ruta accesada
 app.use(function (request, response, next) {
@@ -13,6 +15,17 @@ app.use(function (request, response, next) {
 
 // Middleware que convierta el binario del body a un JSON
 app.use(express.json());
+
+// Middleware que ejecuta las validaciones de "express-validator"
+function validate(request, response, next) {
+	const errors = validationResult(request);
+
+	if (!errors.isEmpty()) {
+		return response.status(400).json({ errors: errors.array() });
+	}
+
+	next();
+}
 
 let lastCourseId = 1000;
 let lastStudentId = 2000;
@@ -30,6 +43,13 @@ const students = [
 		id: 2000,
 		name: "Juan",
 		lastName: "Perez",
+		age: 28,
+	},
+	{
+		id: 2001,
+		name: "Luis",
+		lastName: "Fuentes",
+		age: 25,
 	},
 ];
 
@@ -84,15 +104,60 @@ app.get("/courses/:id/students", function (request, response) {
 
 // Crear un nuevo curso
 // POST /courses
-app.post("/courses", function (request, response) {
-	console.log(request.body);
-	response.end();
-});
+app.post(
+	"/courses",
+	body("name").isLength({ min: 1 }),
+	validate,
+	function (request, response) {
+		const { name } = request.body;
+		const newCourse = { id: ++lastCourseId, name, students: [] };
+		courses.push(newCourse);
+		response.status(201).json(newCourse);
+	}
+);
 
 // Crear un nuevo alumno
 // POST /students
 
 // Asignar un alumno a un curso
 // PUT /courses/:id/students/:id
+app.put("/courses/:courseId/students/:studentId", function (request, response) {
+	const { courseId, studentId } = request.params;
+	const course = courses.find((c) => c.id.toString() === courseId);
+
+	if (!course) {
+		return response.status(404).json({
+			error: `El curso con id ${courseId} no existe`,
+		});
+	}
+
+	const student = students.find((s) => s.id.toString() === studentId);
+
+	if (!student) {
+		return response.status(404).json({
+			error: `El alumno con id ${studentId} no existe`,
+		});
+	}
+
+	if (course.students.includes(student.id)) {
+		return response.status(400).json({
+			error: `El alumno ${student.name} ya está asignado al curso ${course.name}`,
+		});
+	}
+
+	course.students.push(student.id);
+
+	response.status(204).end();
+});
 
 app.listen(8080);
+
+// Códigos de respuesta
+// 200 - OK
+// 201 - Creado
+// 204 - OK sin respuesta
+// 300 - Redirecciones
+// 400 - Error por parte del usuario
+// 401 - No autorizado
+// 404 - No encontrado
+// 500 - Error por parte del servidor
