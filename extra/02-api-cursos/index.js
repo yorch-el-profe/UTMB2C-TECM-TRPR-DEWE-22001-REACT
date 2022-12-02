@@ -150,6 +150,26 @@ app.put("/courses/:courseId/students/:studentId", function (request, response) {
 	response.status(204).end();
 });
 
+// Eliminar un curso
+// DELETE /courses/:id
+app.delete("/courses/:id", function (request, response) {
+	const { id } = request.params;
+
+	const index = courses.findIndex((c) => c.id.toString() === id);
+
+	if (index === -1) {
+		return response.status(404).json({
+			error: `El curso con id ${id} no existe`,
+		});
+	}
+
+	courses.splice(index, 1);
+	response.status(204).end();
+});
+
+// Eliminar un alumno
+// DELETE /students/:id
+
 app.listen(8080);
 
 // Códigos de respuesta
