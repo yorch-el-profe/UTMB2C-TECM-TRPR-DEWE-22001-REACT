@@ -1,6 +1,22 @@
 const express = require("express");
 const app = express();
 
+// Middleware
+// app.use(function) => Para todas las rutas
+// app.use("/ruta", function) => Únicamente para la ruta "/ruta"
+
+// Middleware que en cada petición imprime la ruta accesada
+app.use(function (request, response, next) {
+	console.log(request.method, request.url);
+	next(); // La petición continue su camino (es decir, otro middleware o la petición final)
+});
+
+// Middleware que convierta el binario del body a un JSON
+app.use(express.json());
+
+let lastCourseId = 1000;
+let lastStudentId = 2000;
+
 const courses = [
 	{
 		id: 1000,
@@ -43,7 +59,7 @@ app.get("/courses/:id", function (request, response) {
 });
 
 // Obtener todos los alumnos
-// GET /alumnos
+// GET /students
 app.get("/students", function (request, response) {
 	response.status(200).json(students);
 });
@@ -67,9 +83,16 @@ app.get("/courses/:id/students", function (request, response) {
 });
 
 // Crear un nuevo curso
+// POST /courses
+app.post("/courses", function (request, response) {
+	console.log(request.body);
+	response.end();
+});
 
 // Crear un nuevo alumno
+// POST /students
 
 // Asignar un alumno a un curso
+// PUT /courses/:id/students/:id
 
 app.listen(8080);
