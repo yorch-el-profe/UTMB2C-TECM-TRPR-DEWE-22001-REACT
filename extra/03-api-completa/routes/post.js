@@ -22,4 +22,13 @@ app.post(
 	}
 );
 
+app.get("/", async function (request, response) {
+	try {
+		const posts = await model.Post.findAll();
+		response.status(200).json(posts);
+	} catch (e) {
+		response.status(500).json({ error: e.message });
+	}
+});
+
 module.exports = app;
