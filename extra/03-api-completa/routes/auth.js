@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { body } = require("express-validator");
 const md5 = require("md5");
+const jwt = require("jsonwebtoken");
 const { model } = require("../database/sequelize");
 const validator = require("../middlewares/validator");
 
@@ -9,9 +10,6 @@ const app = Router();
 app.post(
 	"/",
 	[
-		body("username")
-			.isLength({ min: 5, max: 20 })
-			.withMessage("El nombre de usuario es inválido"),
 		body("password")
 			.isLength({ min: 8, max: 20 })
 			.withMessage("La contraseña es inválida"),
@@ -20,18 +18,22 @@ app.post(
 	],
 	async function (request, response) {
 		try {
-			const user = await model.User.create({
-				...request.body,
-				password: md5(request.body.password),
+			const { email, password } = request.body;
+			const user = await model.User.findOne({
+				where: { email, password: md5(password) },
 			});
-			response.status(201).json(user);
-		} catch (e) {
-			if (e.name === "SequelizeUniqueConstraintError") {
+
+			if (!user) {
 				return response.status(400).json({
-					error: "El nombre de usuario o correo electrónico ya existe",
+					error: "Correo electrónico o contraseña incorrectos",
 				});
 			}
 
+			const token = jwt.sign({ id: user.id }, "ssssshhhhhh", {
+				expiresIn: "1d",
+			});
+			response.status(200).json({ token });
+		} catch (e) {
 			response.status(500).json({ error: e.message });
 		}
 	}
